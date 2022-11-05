@@ -5,9 +5,9 @@ import {
     Page,
 } from '@shopify/polaris';
 import { Header } from './header';
-import { Section } from './section';
+import type { activeTab } from './navigation'
 
-export const Layout = ({ children }: PropsWithChildren<{}>) => {
+export const Layout = ({ children, title, activeTab }: PropsWithChildren<{ title: string, activeTab: activeTab }>) => {
     const logo = {
         width: 32,
         topBarSource:
@@ -19,9 +19,9 @@ export const Layout = ({ children }: PropsWithChildren<{}>) => {
     return <Frame
         logo={logo}
         topBar={<Header />}
-        navigation={<Navigation />}
+        navigation={<Navigation activeTab={activeTab} />}
     >
-        <Page title="Product">
+        <Page title={title}>
             {children}
         </Page >
     </Frame >

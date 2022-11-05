@@ -1,19 +1,13 @@
-import { Box, Button, Icon, Navigation as PolarisNavigation, Stack, Text } from '@shopify/polaris';
-import {
-    ArrowLeftMinor,
-    HomeMajor,
-    OrdersMajor,
-    ConversationMinor,
-
-} from '@shopify/polaris-icons';
+import { Box, Stack, Text } from '@shopify/polaris';
 import {
     DynamicSourceMajor,
     CustomerMinusMajor,
     ChannelsMajor,
     AutomationMajor
 } from '@shopify/polaris-icons';
-import React, { FunctionComponent, PropsWithChildren, SVGProps } from 'react';
+import { PropsWithChildren } from 'react';
 import styled from 'styled-components';
+import { Link as UnstyledLink } from "react-router-dom";
 
 const StyledBox = styled.div`
     
@@ -56,21 +50,62 @@ const StyledSpan = styled.span`
     display: inline-block;
 `
 
-export const Navigation = () => (
+const Link = styled(UnstyledLink)`
+    text-decoration: none;
+    color: inherit;
+`
+
+export type activeTab = 'event-sources' | 'actions' | 'cohorts' | 'churn-paths'
+
+export const Navigation = ({ activeTab }: PropsWithChildren<{ activeTab: activeTab }>) => (
     <div className='Polaris-Navigation' style={{ minHeight: '100%' }}>
         <Box background="surface" minHeight='100%' paddingBlockStart="5">
             <Box background="surface" padding='5'>
                 <Stack vertical alignment="fill">
-                    <NavigationButton icon={<StyledSpan
-                    ><DynamicSourceMajor /></StyledSpan>
-                    }>Event sources</NavigationButton>
-                    <NavigationButton className="selected" icon={<StyledSpan
-                    ><CustomerMinusMajor /></StyledSpan>} >Churn paths</NavigationButton>
-                    <NavigationButton icon={<StyledSpan
-                    ><ChannelsMajor /></StyledSpan>}>Cohorts</NavigationButton>
+                    <Link to='/'>
+                        <NavigationButton
+                            className={activeTab == 'event-sources' ? 'selected' : undefined}
+                            icon={
+                                <StyledSpan>
+                                    <DynamicSourceMajor />
+                                </StyledSpan>
+                            }>
+                            Event sources
+                        </NavigationButton>
+                    </Link>
 
-                    <NavigationButton icon={<StyledSpan
-                    ><AutomationMajor /></StyledSpan>}>Actions</NavigationButton>
+                    <Link to='/churn-paths'>
+                        <NavigationButton
+                            className={activeTab == 'churn-paths' ? 'selected' : undefined}
+                            icon={
+                                <StyledSpan>
+                                    <CustomerMinusMajor />
+                                </StyledSpan>} >
+                            Churn paths
+                        </NavigationButton>
+                    </Link>
+
+                    <Link to='/cohorts'>
+                        <NavigationButton
+                            className={activeTab == 'cohorts' ? 'selected' : undefined}
+                            icon={
+                                <StyledSpan>
+                                    <ChannelsMajor />
+                                </StyledSpan>}>
+                            Cohorts
+                        </NavigationButton>
+                    </Link>
+
+                    <Link to='/actions'>
+                        <NavigationButton
+                            className={activeTab == 'actions' ? 'selected' : undefined}
+                            icon={
+                                <StyledSpan>
+                                    <AutomationMajor />
+                                </StyledSpan>}>
+                            Actions
+                        </NavigationButton>
+                    </Link>
                 </Stack>
             </Box>
         </Box>
